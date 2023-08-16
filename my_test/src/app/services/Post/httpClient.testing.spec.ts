@@ -29,4 +29,25 @@ describe('http client testing moduel', () => {
     request.flush(testData);
     expect(request.request.method).toBe('GET');
   });
+
+  it('sgould test multiple requests', () => {
+    const testData: Data[] = [{ name: 'Kovács' }, { name: 'Farkas' }];
+
+    httpClient.get<Data[]>(testUrl).subscribe((data) => {
+      expect(data.length).toEqual(0);
+    });
+    httpClient.get<Data[]>(testUrl).subscribe((data) => {
+      expect(data).toEqual([testData[0]]);
+    });
+    httpClient.get<Data[]>(testUrl).subscribe((data) => {
+      expect(data).toEqual(testData);
+    });
+
+    const requiest = httpTestingController.match(testUrl);
+    expect(requiest.length).toEqual(3);
+
+    requiest[0].flush([]);
+    requiest[1].flush([testData[0]]);
+    requiest[2].flush(testData);
+  });
 });

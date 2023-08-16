@@ -54,16 +54,6 @@ describe('Post Component', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create exact same number of Post COmponenet with Posts', () => {
-    mockPostService.getPosts.and.returnValue(of(POSTS));
-    fixture.detectChanges();
-    const postComponenetDEs = fixture.debugElement.queryAll(
-      By.directive(PostComponent)
-    );
-
-    expect(postComponenetDEs.length).toEqual(POSTS.length);
-  });
-
   it('should check whether exact post is sending to PostCOmponent', () => {
     mockPostService.getPosts.and.returnValue(of(POSTS));
     fixture.detectChanges();
@@ -76,6 +66,16 @@ describe('Post Component', () => {
         .componentInstance as PostComponent;
       expect(postComponentInstance.posts.title).toEqual(POSTS[i].title);
     }
+  });
+
+  it('should create exact same number of Post COmponenet with Posts', () => {
+    mockPostService.getPosts.and.returnValue(of(POSTS));
+    fixture.detectChanges();
+    const postComponenetDEs = fixture.debugElement.queryAll(
+      By.directive(PostComponent)
+    );
+
+    expect(postComponenetDEs.length).toEqual(POSTS.length);
   });
 
   it('should create one post child Element for each post', () => {
